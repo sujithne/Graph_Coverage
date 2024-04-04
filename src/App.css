@@ -13,6 +13,47 @@
   }
 }
 
+.navbar-custom-grey {
+  background-color: #494b4d; 
+}
+.navbar-custom-grey .navbar-brand,
+.navbar-custom-grey .nav-link {
+  color: white;
+  font-size: 24px;
+  padding: 5px;
+  margin: 5px;
+}
+.card-custom {
+  background-color: #c8edfd; /* Light blue background for the card */
+  height: 100%; /* Make card height take up available space */
+}
+html, body {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.card-header-color {
+  color: #096ad2; /* Example: Bootstrap primary blue for the header */
+}
+
+.card-description-color {
+  color: #454749; /* Example: Bootstrap secondary grey for the description */
+}
+
+/* Ensuring all cards in a row are of the same height */
+.card-row .col-md-4 {
+  display: flex;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -35,4 +76,78 @@
   to {
     transform: rotate(360deg);
   }
+}
+/* App.css */
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.graph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.node {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 20px;
+}
+
+.red {
+  background-color: red;
+  color: white;
+}
+
+.edge {
+  font-weight: bold;
+}
+
+.coverage-types {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.coverage-type {
+  width: 300px;
+  margin: 0 20px;
+  text-align: left;
+}
+
+footer {
+  background-color: #282c34;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
 }
