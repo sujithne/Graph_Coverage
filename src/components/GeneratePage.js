@@ -113,6 +113,27 @@ function GeneratePage() {
     console.log("Current state of rows:", rows);
     const graph = new Graph();
     // If you need to perform additional logic, like validating data or preparing data for an API call, you can do that here.
+    rows.forEach((row,index)=>{
+      if(index===0){
+        if(row.column1===''||row.column2===''){
+          alert("Start Node Info Missing");
+          return;
+        }
+      }
+      
+      if(index===rows.length-1){
+        if(row.column1===''){
+          alert("End node is missing");
+          return;
+        }
+      }
+      if(index!==0&&index!==rows.length-1){
+        if(row.column1===''||row.column2===''){
+          alert("Missing intermediate node info");
+          return;
+        }
+      }
+    });
     rows.forEach((row, index) => {
       // console.log(`Row ${index + 1} - Column 1: ${row.column1}, Column 2: ${row.column2}`);
       //console.log(`Type of Column 1: ${typeof row.column1}, Type of Column 2: ${typeof row.column2}`);
@@ -271,7 +292,7 @@ function GeneratePage() {
                 onChange={(e) =>
                   handleInputChange(index, "column1", e.target.value)
                 }
-                placeholder="Start Node"
+                placeholder="Start Node: "
                 style={{
                   marginRight: "50px",
                   borderRadius: "5px",
@@ -286,7 +307,7 @@ function GeneratePage() {
                 onChange={(e) =>
                   handleInputChange(index, "column2", e.target.value)
                 }
-                placeholder=""
+                placeholder="eg: B,C"
                 style={{
                   marginRight: "30px",
                   borderRadius: "5px",
