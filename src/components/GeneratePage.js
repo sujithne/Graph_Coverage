@@ -1,8 +1,13 @@
 import "../styling/GeneratePage.css";
 import logo from "../assets/pen.jpg";
 import React, { useState, useEffect } from "react";
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-{/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></link> */ }
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+></link>;
+{
+  /* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></link> */
+}
 
 let paths = [];
 let path = [];
@@ -54,8 +59,9 @@ class Graph {
 function createGraph(graph, vertex, edges) {
   graph.addVertex(vertex);
   let neighbors = edges.split(",");
-  neighbors.forEach(neighbor => {
-    if (neighbor.trim() !== "") { // Ensure non-empty, non-blank edges are added
+  neighbors.forEach((neighbor) => {
+    if (neighbor.trim() !== "") {
+      // Ensure non-empty, non-blank edges are added
       graph.addEdge(vertex, neighbor.trim());
     }
   });
@@ -73,7 +79,7 @@ function GeneratePage() {
   ]);
 
   // State for selected option
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("edgePairCoverage");
   const [tR, setTR] = useState("");
   const [tP, setTP] = useState("");
   const handleOptionChange = (event) => {
@@ -83,14 +89,21 @@ function GeneratePage() {
   const handleFormatEdgePairs = (path) => {
     // Format each path for edge-pair coverage specifically
     // This will involve iterating through the path array and grouping pairs
-    return path.map((node, index, arr) => {
-      if (index < arr.length - 2) { // Ensure there's a pair to display
-        return `[${node} -> ${arr[index + 1]}, ${arr[index + 1]} -> ${arr[index + 2]}]`;
-      } else if (index === arr.length - 2) { // Handle the penultimate node
-        return `[${node} -> ${arr[index + 1]}]`;
-      }
-      return ''; // The last node doesn't form a pair, so it's ignored
-    }).filter(Boolean).join(", ");
+    return path
+      .map((node, index, arr) => {
+        if (index < arr.length - 2) {
+          // Ensure there's a pair to display
+          return `[${node} -> ${arr[index + 1]}, ${arr[index + 1]} -> ${
+            arr[index + 2]
+          }]`;
+        } else if (index === arr.length - 2) {
+          // Handle the penultimate node
+          return `[${node} -> ${arr[index + 1]}]`;
+        }
+        return ""; // The last node doesn't form a pair, so it's ignored
+      })
+      .filter(Boolean)
+      .join(", ");
   };
 
   const handleClick = () => {
@@ -122,26 +135,38 @@ function GeneratePage() {
       let relevantPaths = fpath.filter((_, i) => !temp.includes(i));
 
       // Directly format the paths without breaking them into edge pairs for display
-      let pathsOutput = relevantPaths.map(path => `Path: ${path.join(" -> ")}`).join("\n\n");
+      let pathsOutput = relevantPaths
+        .map((path) => `Path: ${path.join(" -> ")}`)
+        .join("\n\n");
       setTP(pathsOutput);
 
-      let edgePPairs = edgePairs(graph).map(pair => `(${pair.join(" -> ")})`).join(", ");
+      let edgePPairs = edgePairs(graph)
+        .map((pair) => `(${pair.join(" -> ")})`)
+        .join(", ");
       setTR(edgePPairs);
-
     } else if (selectedOption === "edgeCoverage") {
       // Assuming pathEdgeCoverage returns indices of paths for edge coverage
-      let relevantPaths = fpath2.filter((_, i) => !pathEdgeCoverage(fpath2).includes(i));
+      let relevantPaths = fpath2.filter(
+        (_, i) => !pathEdgeCoverage(fpath2).includes(i)
+      );
 
-      let pathsOutput = relevantPaths.map(path => `Path: ${path.join(" -> ")}`).join("\n\n");
+      let pathsOutput = relevantPaths
+        .map((path) => `Path: ${path.join(" -> ")}`)
+        .join("\n\n");
       setTP(pathsOutput);
 
-      let edgesFormatted = edgesF(graph).map(edge => `(${edge.join(" -> ")})`).join(", ");
+      let edgesFormatted = edgesF(graph)
+        .map((edge) => `(${edge.join(" -> ")})`)
+        .join(", ");
       setTR(edgesFormatted);
-
     } else {
       // Handling for node coverage is similar, using an overall path sequence
-      let relevantPaths = fpath3.filter((_, i) => !pathNodeCoverage(fpath3).includes(i));
-      let pathsOutput = relevantPaths.map(path => `Path: ${path.join(" -> ")}`).join("\n\n");
+      let relevantPaths = fpath3.filter(
+        (_, i) => !pathNodeCoverage(fpath3).includes(i)
+      );
+      let pathsOutput = relevantPaths
+        .map((path) => `Path: ${path.join(" -> ")}`)
+        .join("\n\n");
       setTP(pathsOutput);
 
       let nodesFormatted = nodes(graph).join(", ");
@@ -205,7 +230,7 @@ function GeneratePage() {
     marginTop: "2px",
     height: "60px",
   };
- 
+
   return (
     <div className="content">
       {/* Tab style component */}
@@ -321,7 +346,7 @@ function GeneratePage() {
                 onChange={(e) =>
                   handleInputChange(index, "column2", e.target.value)
                 }
-               
+                disabled={true}
                 style={{
                   marginRight: "30px",
                   borderRadius: "5px",
@@ -331,7 +356,10 @@ function GeneratePage() {
             )}
             {/* Column 2 text field */}
             {index !== 0 && index !== rows.length - 1 ? (
-              <button onClick={() => handleDeleteRow(index)} className="btn btn-outline-danger">
+              <button
+                onClick={() => handleDeleteRow(index)}
+                className="btn btn-outline-danger"
+              >
                 <i className="fas fa-trash"></i> Delete
               </button>
             ) : (
@@ -343,11 +371,15 @@ function GeneratePage() {
         ))}
 
         {/* Button to add a new row */}
-        <button onClick={handleAddRow} className="btn btn-add-row mt-2">Add Row</button>
+        <button onClick={handleAddRow} className="btn btn-add-row mt-2">
+          Add Row
+        </button>
       </div>
       {/* Radio buttons */}
       {/* Radio buttons for selecting test coverage options */}
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+      >
         <label style={{ marginRight: "20px" }}>
           <input
             type="radio"
@@ -381,13 +413,23 @@ function GeneratePage() {
       </div>
 
       {/* "Generate Coverage" button placed below the radio buttons */}
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-        <button style={{ padding: "10px 20px" }} onClick={handleClick} className="btn btn-generate-coverage">
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+      >
+        <button
+          style={{ padding: "10px 20px" }}
+          onClick={handleClick}
+          className="btn btn-generate-coverage"
+        >
           Generate Coverage
         </button>
       </div>
       <div className="grey-background">
-        <h4>{selectedOption}</h4>
+        <h4>
+          {selectedOption === "nodeCoverage" && "Node Coverage"}
+          {selectedOption === "edgeCoverage" && "Edge Coverage"}
+          {selectedOption === "edgePairCoverage" && "Edge-Pair Coverage"}
+        </h4>
         <div className="container">
           <div className="text-area-container">
             <h5 className="heading">Test Requirements</h5>
@@ -409,7 +451,6 @@ function GeneratePage() {
           </div>
         </div>
       </div>
-      
     </div>
   );
 }
