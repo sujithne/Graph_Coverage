@@ -47,10 +47,10 @@ const ExamplePage = () => {
           <h3>Example on how to input graph</h3>
         </div>
         <div className="centered-content">
-          <div className="container my-5">
+          <div className="container d-flex justify-content-center align-items-center my-5">
             <div className="row">
               <div className="col-md-6">
-                <img src={GraphImage} alt="Graph Visualization" className="img-fluid" />
+                <img src={GraphImage} alt="Graph Visualization" className="img-fluid larger-image" />
               </div>
               <div className="col-md-6">
                 <div className="row mb-2 font-weight-bold">
