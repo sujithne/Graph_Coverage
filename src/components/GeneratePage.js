@@ -47,15 +47,6 @@ class Graph {
   }
 }
 
-// function createGraph(graph, vertex, edges) {
-//   console.log(`Vertex: ${vertex}, Edges: ${edges}`);
-//   let neighbors = edges.split(",");
-//   console.log(neighbors);
-//   graph.addVertex(vertex);
-//   for (let i = 0; i < neighbors.length; i++) {
-//     graph.addEdge(vertex, neighbors[i]);
-//   }
-// }
 function createGraph(graph, vertex, edges) {
   graph.addVertex(vertex);
   let neighbors = edges.split(",");
@@ -95,7 +86,7 @@ function GeneratePage() {
           // Ensure there's a pair to display
           return `[${node} -> ${arr[index + 1]}, ${arr[index + 1]} -> ${
             arr[index + 2]
-          }]`;
+            }]`;
         } else if (index === arr.length - 2) {
           // Handle the penultimate node
           return `[${node} -> ${arr[index + 1]}]`;
@@ -107,81 +98,87 @@ function GeneratePage() {
   };
 
   const handleClick = () => {
-    // Handle button click
     let startNode = "";
     let endNode = "";
+    let hasError = false; // Flag to track if there's any error
+  
     console.log("Current state of rows:", rows);
+  
     const graph = new Graph();
-    // If you need to perform additional logic, like validating data or preparing data for an API call, you can do that here.
-    rows.forEach((row,index)=>{
-      if(index===0){
-        if(row.column1===''||row.column2===''){
+  
+    // Validate data and check for errors
+    for (let i = 0; i < rows.length; i++) {
+      const { column1, column2 } = rows[i];
+  
+      if (i === 0) {
+        if (column1 === '' || column2 === '') {
           alert("Start Node Info Missing");
-          return;
+          hasError = true;
+          break;
         }
-      }
-      
-      if(index===rows.length-1){
-        if(row.column1===''){
+      } else if (i === rows.length - 1) {
+        if (column1 === '') {
           alert("End node is missing");
-          return;
+          hasError = true;
+          break;
         }
-      }
-      if(index!==0&&index!==rows.length-1){
-        if(row.column1===''||row.column2===''){
+      } else {
+        if (column1 === '' || column2 === '') {
           alert("Missing intermediate node info");
-          return;
+          hasError = true;
+          break;
         }
       }
-    });
+    }
+  
+    // If there's an error, don't proceed further
+    if (hasError) {
+      return;
+    }
+  
+    // If no error, proceed with graph creation and test path generation
     rows.forEach((row, index) => {
-      // console.log(`Row ${index + 1} - Column 1: ${row.column1}, Column 2: ${row.column2}`);
-      //console.log(`Type of Column 1: ${typeof row.column1}, Type of Column 2: ${typeof row.column2}`);
-      // console.log(index);
       if (index === 0) {
         startNode = row.column1;
       }
       endNode = row.column1;
       createGraph(graph, row.column1, row.column2);
     });
+  
     console.log(startNode);
     console.log(endNode);
     graph.display();
     console.log(selectedOption);
+  
     findTestPaths(graph, startNode, endNode);
     generateFinalPaths();
     pathEdgePairCoverage();
-
+  
     if (selectedOption === "edgePairCoverage") {
-      let relevantPaths = fpath.filter((_, i) => !temp.includes(i));
-
-      // Directly format the paths without breaking them into edge pairs for display
+      let relevantPaths = fpath.filter((_,i) => !temp.includes(i));
       let pathsOutput = relevantPaths
         .map((path) => `Path: ${path.join(" -> ")}`)
         .join("\n\n");
       setTP(pathsOutput);
-
+  
       let edgePPairs = edgePairs(graph)
         .map((pair) => `(${pair.join(" -> ")})`)
         .join(", ");
       setTR(edgePPairs);
     } else if (selectedOption === "edgeCoverage") {
-      // Assuming pathEdgeCoverage returns indices of paths for edge coverage
       let relevantPaths = fpath2.filter(
         (_, i) => !pathEdgeCoverage(fpath2).includes(i)
       );
-
       let pathsOutput = relevantPaths
         .map((path) => `Path: ${path.join(" -> ")}`)
         .join("\n\n");
       setTP(pathsOutput);
-
+  
       let edgesFormatted = edgesF(graph)
         .map((edge) => `(${edge.join(" -> ")})`)
         .join(", ");
       setTR(edgesFormatted);
     } else {
-      // Handling for node coverage is similar, using an overall path sequence
       let relevantPaths = fpath3.filter(
         (_, i) => !pathNodeCoverage(fpath3).includes(i)
       );
@@ -189,10 +186,11 @@ function GeneratePage() {
         .map((path) => `Path: ${path.join(" -> ")}`)
         .join("\n\n");
       setTP(pathsOutput);
-
+  
       let nodesFormatted = nodes(graph).join(", ");
       setTR(nodesFormatted);
     }
+  
     paths = [];
     path = [];
     edges = new Map();

@@ -10,6 +10,7 @@ const ExamplePage = () => {
     newInputs[index][field] = value;
     setGraphInputs(newInputs);
   };
+
   const graphNodes = [
     { node: 'A', edges: 'B' },
     { node: 'B', edges: 'C, D' },
@@ -18,12 +19,12 @@ const ExamplePage = () => {
     { node: 'E', edges: 'F' },
     { node: 'F', edges: '' }, // No outgoing edges from F
   ];
+
   const testRequirement1 = "{A, B, C, D, E, F}";
   const testPaths1 = "[A->B->C->E->D->B->C->E->F]";
 
   const testRequirement2 = "(A->B) (B->C) (C->E) (E->D) (D->B) (E->F)";
   const testPaths2 = "[A->B->C->E->D->B->C->E->F]";
-
 
   const testRequirement3 = "[A->B->C] [B->C->E] [C->E->D] [C->E->F] [E->D->B] [D->B->C]";
   const testPaths3 = "[A->B->C->E->D->B->C->E->F],  [A->B->C->E->F]";
@@ -40,36 +41,37 @@ const ExamplePage = () => {
   };
 
   return (
-    <div>
+    <div className="center-container">
       <div>
         <div style={tabStyle}>
           <h3>Example on how to input graph</h3>
         </div>
-        <div className="container my-5">
-          <div className="row">
-            <div className="col-md-6">
-              <img src={GraphImage} alt="Graph Visualization" className="img-fluid" />
-            </div>
-            <div className="col-md-6">
-              <div className="row mb-2 font-weight-bold">
-                <div className="col-6">Node</div>
-                <div className="col-6">Outgoing Edges</div>
+        <div className="centered-content">
+          <div className="container my-5">
+            <div className="row">
+              <div className="col-md-6">
+                <img src={GraphImage} alt="Graph Visualization" className="img-fluid" />
               </div>
-              {graphNodes.map((input, index) => (
-                <div key={index} className="row mb-3">
-                  <div className="col-6">
-                    <div className="form-control">{input.node}</div>
-                  </div>
-                  <div className="col-6">
-                    <div className="form-control">{input.edges}</div>
-                  </div>
+              <div className="col-md-6">
+                <div className="row mb-2 font-weight-bold">
+                  <div className="col-6">Node</div>
+                  <div className="col-6">Outgoing Edges</div>
                 </div>
-              ))}
+                {graphNodes.map((input, index) => (
+                  <div key={index} className="row mb-3">
+                    <div className="col-6">
+                      <div className="form-control">{input.node}</div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-control">{input.edges}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
         <div>
-
           <div className="black-background white-text">
             <div className="row mt-5 px-5">
               <div className="col-12 col-md-4 mb-3">
@@ -101,8 +103,6 @@ const ExamplePage = () => {
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
