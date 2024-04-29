@@ -296,6 +296,7 @@ function GeneratePage() {
                   borderRadius: "5px",
                   padding: "5px",
                 }}
+                maxLength={1}
               />
             )}
             {index === 0 && (
@@ -326,6 +327,7 @@ function GeneratePage() {
                   borderRadius: "5px",
                   padding: "5px",
                 }}
+                maxLength={1}
               />
             )}
             {index !== 0 && index !== rows.length - 1 && (
@@ -356,6 +358,7 @@ function GeneratePage() {
                   borderRadius: "5px",
                   padding: "5px",
                 }}
+                maxLength={1}
               />
             )}
             {index === rows.length - 1 && (
