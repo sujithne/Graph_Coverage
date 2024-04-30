@@ -25,9 +25,9 @@ const HomePage = () => {
                 </div>
             </div>
             <div>
-            <div className="container my-5"> {/* Use 'container' for fixed width or 'container-fluid' for full width with padding */}
+            <div className="container my-5"> 
                 <div className="d-flex justify-content-center">
-                    {/* 'g-3' for gap; 'px-5' adds greater left and right padding to the 'row' itself */}
+                    
                     <div className="row mt-5 text-center g-3 px-1 card-row">
                         <div className="col-md-4 d-flex align-items-stretch">
                             <Section

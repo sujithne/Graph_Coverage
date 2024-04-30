@@ -8,7 +8,6 @@ import HomePage from './components/HomePage';
 import Footer from './components/Footer';
 import GeneratePage from './components/GeneratePage';
 import ExamplePage from './components/ExamplePage';
-// Import or define other pages (GeneratePage, ExamplePage)
 
 function App() {
   return (

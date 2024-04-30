@@ -23,7 +23,7 @@
   }
   .grey-background {
     background-color: #f0f0f0; /* Grey background color */
-    padding: 20px; /* Adjust padding as needed */
+    padding: 20px; 
     margin-bottom: 20px;
     margin-top: 20px;
   }
@@ -85,7 +85,7 @@
   background-color: #da190b;
 }
 
-/* Custom Generate Coverage Button */
+
 .btn-generate-coverage {
   background-color:  #00647a; /* Blue */
   color: white;

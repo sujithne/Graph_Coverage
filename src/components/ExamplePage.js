@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GraphImage from '../assets/graph-example.png'; // Adjust the path as necessary
+import GraphImage from '../assets/graph-example.png'; 
 import "../styling/ExamplePage.css"
 
 const ExamplePage = () => {
@@ -27,7 +27,7 @@ const ExamplePage = () => {
   const testPaths2 = "[A->B->C->E->D->B->C->E->F]";
 
   const testRequirement3 = "[A->B->C] [B->C->E] [C->E->D] [C->E->F] [E->D->B] [D->B->C]";
-  const testPaths3 = "[A->B->C->E->D->B->C->E->F],  [A->B->C->E->F]";
+  const testPaths3 = "[A->B->C->E->D->B->C->E->F]";
 
   const tabStyle = {
     backgroundColor: "lightblue",

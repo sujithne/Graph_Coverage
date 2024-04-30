@@ -202,6 +202,7 @@ function GeneratePage() {
     fpath3 = []; // final test paths for node coverage
     temp = []; // Test path edge pairs
   };
+
   // Function to handle adding a new row
   const handleAddRow = () => {
     setRows([...rows, { column1: "", column2: "" }]);
@@ -220,9 +221,6 @@ function GeneratePage() {
     updatedRows[index][column] = value;
     setRows(updatedRows);
   };
-
-
-
 
   const exportPDFWithData = () => {
 
@@ -243,11 +241,10 @@ function GeneratePage() {
     pdf.setFontSize(18);
     pdf.text(`Graph Data and Test Details - ${coverageName}`, 14, 22); // Coordinates for the title
 
-    // Optional: Add a title
     pdf.setFontSize(18);
     pdf.text("Graph Data and Test Details", 14, 22); // Coordinates for the title
 
-    // Section for Graph Data as a table can be added here as per previous examples
+    
     const tableColumn = ["Source Node", "Outgoing Edges"];
     const tableRows = [];
 
@@ -464,8 +461,7 @@ function GeneratePage() {
             ) : (
               <div style={{ width: "72px", height: "36px" }}></div>
             )}
-            {/* Button to delete row */}
-            {/* <button onClick={() => handleDeleteRow(index)}>Delete</button> */}
+           
           </div>
         ))}
 
@@ -511,7 +507,7 @@ function GeneratePage() {
         </label>
       </div>
 
-      {/* "Generate Coverage" button placed below the radio buttons */}
+      {/* "Generate Coverage" button */}
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
       >
@@ -639,6 +635,7 @@ function dfs(graph, currentNode, endNode, edges, paths, path) {
     }
   }
 }
+
 function countOccurrences(array, element) {
   let count = 0;
   for (let i = 0; i < array.length; i++) {
@@ -648,6 +645,7 @@ function countOccurrences(array, element) {
   }
   return count;
 }
+
 function generateFinalPaths() {
   let counter1 = 0;
   finalPaths.forEach((value1, key) => {
