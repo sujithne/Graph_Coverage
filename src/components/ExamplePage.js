@@ -13,10 +13,10 @@ const ExamplePage = () => {
 
   const graphNodes = [
     { node: 'A', edges: 'B' },
-    { node: 'B', edges: 'C, D' },
+    { node: 'B', edges: 'C' },
     { node: 'C', edges: 'E' },
     { node: 'D', edges: 'B' },
-    { node: 'E', edges: 'F' },
+    { node: 'E', edges: 'D, F' },
     { node: 'F', edges: '' }, // No outgoing edges from F
   ];
 

@@ -1,6 +1,9 @@
 import "../styling/GeneratePage.css";
 import logo from "../assets/pen.jpg";
 import React, { useState, useEffect } from "react";
+import jsPDF from 'jspdf';
+
+import 'jspdf-autotable'; // Only if you're going to use it for sophisticated tables.
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -70,7 +73,7 @@ function GeneratePage() {
   ]);
 
   // State for selected option
-  const [selectedOption, setSelectedOption] = useState("edgePairCoverage");
+  const [selectedOption, setSelectedOption] = useState("nodeCoverage");
   const [tR, setTR] = useState("");
   const [tP, setTP] = useState("");
   const handleOptionChange = (event) => {
@@ -84,8 +87,7 @@ function GeneratePage() {
       .map((node, index, arr) => {
         if (index < arr.length - 2) {
           // Ensure there's a pair to display
-          return `[${node} -> ${arr[index + 1]}, ${arr[index + 1]} -> ${
-            arr[index + 2]
+          return `[${node} -> ${arr[index + 1]}, ${arr[index + 1]} -> ${arr[index + 2]
             }]`;
         } else if (index === arr.length - 2) {
           // Handle the penultimate node
@@ -101,15 +103,15 @@ function GeneratePage() {
     let startNode = "";
     let endNode = "";
     let hasError = false; // Flag to track if there's any error
-  
+
     console.log("Current state of rows:", rows);
-  
+
     const graph = new Graph();
-  
+
     // Validate data and check for errors
     for (let i = 0; i < rows.length; i++) {
       const { column1, column2 } = rows[i];
-  
+
       if (i === 0) {
         if (column1 === '' || column2 === '') {
           alert("Start Node Info Missing");
@@ -130,12 +132,12 @@ function GeneratePage() {
         }
       }
     }
-  
+
     // If there's an error, don't proceed further
     if (hasError) {
       return;
     }
-  
+
     // If no error, proceed with graph creation and test path generation
     rows.forEach((row, index) => {
       if (index === 0) {
@@ -144,23 +146,23 @@ function GeneratePage() {
       endNode = row.column1;
       createGraph(graph, row.column1, row.column2);
     });
-  
+
     console.log(startNode);
     console.log(endNode);
     graph.display();
     console.log(selectedOption);
-  
+
     findTestPaths(graph, startNode, endNode);
     generateFinalPaths();
     pathEdgePairCoverage();
-  
+
     if (selectedOption === "edgePairCoverage") {
-      let relevantPaths = fpath.filter((_,i) => !temp.includes(i));
+      let relevantPaths = fpath.filter((_, i) => !temp.includes(i));
       let pathsOutput = relevantPaths
         .map((path) => `Path: ${path.join(" -> ")}`)
         .join("\n\n");
       setTP(pathsOutput);
-  
+
       let edgePPairs = edgePairs(graph)
         .map((pair) => `(${pair.join(" -> ")})`)
         .join(", ");
@@ -173,7 +175,7 @@ function GeneratePage() {
         .map((path) => `Path: ${path.join(" -> ")}`)
         .join("\n\n");
       setTP(pathsOutput);
-  
+
       let edgesFormatted = edgesF(graph)
         .map((edge) => `(${edge.join(" -> ")})`)
         .join(", ");
@@ -186,11 +188,11 @@ function GeneratePage() {
         .map((path) => `Path: ${path.join(" -> ")}`)
         .join("\n\n");
       setTP(pathsOutput);
-  
+
       let nodesFormatted = nodes(graph).join(", ");
       setTR(nodesFormatted);
     }
-  
+
     paths = [];
     path = [];
     edges = new Map();
@@ -220,6 +222,83 @@ function GeneratePage() {
     const updatedRows = [...rows];
     updatedRows[index][column] = value;
     setRows(updatedRows);
+  };
+
+
+
+
+  const exportPDFWithData = () => {
+
+    if (!tR.trim()) {
+      alert("Please generate a coverage first before exporting to PDF.");
+      return; // Exit the function early
+    }
+
+    const pdf = new jsPDF();
+
+    const coverageNameMap = {
+      nodeCoverage: "Node Coverage",
+      edgeCoverage: "Edge Coverage",
+      edgePairCoverage: "Edge-Pair Coverage"
+    };
+    const coverageName = coverageNameMap[selectedOption] || "Selected Coverage";
+
+    pdf.setFontSize(18);
+    pdf.text(`Graph Data and Test Details - ${coverageName}`, 14, 22); // Coordinates for the title
+
+    // Optional: Add a title
+    pdf.setFontSize(18);
+    pdf.text("Graph Data and Test Details", 14, 22); // Coordinates for the title
+
+    // Section for Graph Data as a table can be added here as per previous examples
+    const tableColumn = ["Source Node", "Outgoing Edges"];
+    const tableRows = [];
+
+    // Populate tableRows with your rows' data
+    rows.forEach(row => {
+      const rowData = [
+        row.column1,
+        row.column2,
+      ];
+      tableRows.push(rowData);
+    });
+
+    pdf.autoTable(tableColumn, tableRows, { startY: 30 });
+
+    // Calculate startY dynamically based on previous content
+    let startY = pdf.lastAutoTable ? pdf.lastAutoTable.finalY + 10 : 30;
+
+    // Adding Test Requirements
+    pdf.setFontSize(16);
+    pdf.text(14, startY, "Test Requirements:");
+    startY += 7; // Small space after the heading
+
+    const maxWidth = 180; // Maximum width for text to fit in the PDF
+    const requirements = tR.split("\n"); // Assuming each requirement is on a new line
+
+    // Iterate through each requirement and split it if necessary
+    requirements.forEach((requirement) => {
+      const splitRequirement = pdf.splitTextToSize(requirement, maxWidth); // Split long text
+      splitRequirement.forEach((line, index) => {
+        pdf.text(14, startY + (6 * index), line); // Adjust vertical space between lines
+      });
+      startY += (splitRequirement.length * 6) + 1; // Increase startY for the next requirement based on the number of lines
+    });
+
+    let startYForPaths = startY + 5; // Increase space before starting paths
+
+    // Adding Test Paths after Requirements
+    pdf.text(14, startYForPaths, "Test Paths:");
+    startYForPaths += 7; // Small space after the heading
+    const paths = tP.split("\n\n"); // Assuming each path is separated by a double newline
+
+    paths.forEach((path, index) => {
+      pdf.text(14, startYForPaths + (6 * index), `Path ${index + 1}: ${path}`);
+      startYForPaths += 6; // Adjust according to content
+    });
+
+    // Save the PDF
+    pdf.save("graph_data.pdf");
   };
 
   // Ensure that there are always at least 6 rows on initial load
@@ -296,7 +375,6 @@ function GeneratePage() {
                   borderRadius: "5px",
                   padding: "5px",
                 }}
-                maxLength={1}
               />
             )}
             {index === 0 && (
@@ -327,7 +405,6 @@ function GeneratePage() {
                   borderRadius: "5px",
                   padding: "5px",
                 }}
-                maxLength={1}
               />
             )}
             {index !== 0 && index !== rows.length - 1 && (
@@ -358,7 +435,6 @@ function GeneratePage() {
                   borderRadius: "5px",
                   padding: "5px",
                 }}
-                maxLength={1}
               />
             )}
             {index === rows.length - 1 && (
@@ -472,7 +548,11 @@ function GeneratePage() {
             ></textarea>
           </div>
         </div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <button onClick={exportPDFWithData} className="btn btn-secondary">Export Data as PDF</button>
+        </div>
       </div>
+
     </div>
   );
 }
