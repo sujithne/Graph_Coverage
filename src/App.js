@@ -18,8 +18,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/generate" element={<GeneratePage/>}/>
         <Route path="/example" element={<ExamplePage/>}/>
-
-        {/* Add routes for your Generate and Example components */}
       </Routes>
       <Footer />
     </Router>
