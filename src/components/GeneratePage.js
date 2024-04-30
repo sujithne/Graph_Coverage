@@ -363,6 +363,7 @@ function GeneratePage() {
               <input
                 type="text"
                 value={row.column1}
+                maxLength={1}
                 onChange={(e) =>
                   handleInputChange(index, "column1", e.target.value)
                 }
@@ -372,6 +373,7 @@ function GeneratePage() {
                   borderRadius: "5px",
                   padding: "5px",
                 }}
+
               />
             )}
             {index === 0 && (
@@ -393,6 +395,7 @@ function GeneratePage() {
               <input
                 type="text"
                 value={row.column1}
+                maxLength={1}
                 onChange={(e) =>
                   handleInputChange(index, "column1", e.target.value)
                 }
@@ -423,6 +426,7 @@ function GeneratePage() {
               <input
                 type="text"
                 value={row.column1}
+                maxLength={1}
                 onChange={(e) =>
                   handleInputChange(index, "column1", e.target.value)
                 }
