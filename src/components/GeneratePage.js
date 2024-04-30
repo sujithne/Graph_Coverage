@@ -3,14 +3,12 @@ import logo from "../assets/pen.jpg";
 import React, { useState, useEffect } from "react";
 import jsPDF from 'jspdf';
 
-import 'jspdf-autotable'; // Only if you're going to use it for sophisticated tables.
+import 'jspdf-autotable'; 
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
 ></link>;
-{
-  /* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></link> */
-}
+
 
 let paths = [];
 let path = [];
@@ -81,8 +79,7 @@ function GeneratePage() {
   };
 
   const handleFormatEdgePairs = (path) => {
-    // Format each path for edge-pair coverage specifically
-    // This will involve iterating through the path array and grouping pairs
+   
     return path
       .map((node, index, arr) => {
         if (index < arr.length - 2) {
